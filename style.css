@@ -4,14 +4,34 @@
     width: 550px;
     height: 400px;
     background: rgb(56, 102,136);
+    justify-content: center;
+}
+.X-board,.Y-board {
+    width: 170px ;
+    margin: 5px;
+    box-sizing: border-box;
+}
+
+.X-board:hover, .Y-board:hover{
+    border: 1px dotted white;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+}
+.gaming-board{
+    width: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 .game-board {
     display: grid;
     grid-template-rows: 70px 70px 70px;
     grid-template-columns:70px 70px 70px;
-    width: 210px;
-    
-    margin: auto;
 
 }
 .box {
@@ -27,3 +47,8 @@
     border-left: 1px solid white;
 }
 
+.AIlevel-board{
+    
+}
+.mode-board{
+}
