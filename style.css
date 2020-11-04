@@ -1,3 +1,4 @@
+
 .play-board {
     display: flex;
     margin: auto;
@@ -9,15 +10,14 @@
 .X-board,.Y-board {
     width: 170px ;
     margin: 5px;
-    box-sizing: border-box;
+    border: 1px dotted transparent;
 }
 
 .X-board:hover, .Y-board:hover{
     border: 1px dotted white;
-    overflow: hidden;
 }
 
-h1 {
+.play-board h1 {
     text-align: center;
     color: white;
 }
@@ -51,4 +51,24 @@ h1 {
     
 }
 .mode-board{
+    display: flex;
+    justify-content: space-evenly;
+    width: 210px;
+}
+.mode-board div{
+   border: 2px dotted transparent;
+   color: white;
+}
+
+.mode-board div:hover{
+    border-bottom: 2px solid #BA1200;
+}
+
+body h1{
+    color: #031927;
+    text-align: center;
+    letter-spacing: 9px;
+}
+body {
+    background: #C8E0F4 ;
 }
