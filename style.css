@@ -1,0 +1,29 @@
+.play-board {
+    display: flex;
+    margin: auto;
+    width: 550px;
+    height: 400px;
+    background: rgb(56, 102,136);
+}
+.game-board {
+    display: grid;
+    grid-template-rows: 70px 70px 70px;
+    grid-template-columns:70px 70px 70px;
+    width: 210px;
+    
+    margin: auto;
+
+}
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#b11, #b12, #b13, #b21, #b22, #b23 {
+    border-bottom: 1px solid white ;
+}
+#b12, #b22, #b32 {
+    border-right: 1px solid white;
+    border-left: 1px solid white;
+}
+
