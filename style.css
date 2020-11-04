@@ -72,3 +72,11 @@ body h1{
 body {
     background: #C8E0F4 ;
 }
+
+select{
+    border:none;
+    background-color: transparent;
+    text-align: center;
+    color: white;
+    font-size: inherit;
+}
