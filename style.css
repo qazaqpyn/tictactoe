@@ -13,6 +13,12 @@
     border: 1px dotted transparent;
 }
 
+.board-selected {
+    width: 170px ;
+    margin: 5px;
+    border: 1px dotted white;
+}
+
 .X-board:hover, .Y-board:hover{
     border: 1px dotted white;
 }
