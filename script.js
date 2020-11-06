@@ -63,6 +63,7 @@ const Game = () => {
         gameBoard.forEach((box)=>{
             box.innerHTML = '';
         });
+        winnerText.innerText='';
 
         xBoard.classList.remove('board-selected');
         xBoard.classList.add('X-board');
@@ -105,8 +106,16 @@ const Game = () => {
             } else {
                 whoGo = 'X';
             }
-            win();
-            draw();
+            if (win()){
+                if (whoGo === 'X') {
+                    winnerText.textContent = 'Winner is Y';
+                } else {
+                    winnerText.textContent = 'Winner is X';
+                }
+            }
+            if (draw()) {
+                winnerText.textContent = 'No Winner';
+            }
         }
     };
 
