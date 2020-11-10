@@ -4,11 +4,55 @@ const gameBoard = document.querySelectorAll(".box");
 const xBoard = document.querySelector(".X-board");
 const yBoard = document.querySelector(".Y-board");
 const winnerText = document.querySelector(".Result");
+const ai = document.getElementById('AI');
+const aiPower = ai.value;
 
+let playBtnPressed  = false;
 let board = [['a','b','c'],['q','w','e'],['r','t','y']];
 let numberXnY = 0;
 let whoGo = 'X';
 let playMode = false;
+let gameMode = '2-players';
+let whichSide;
+
+//codition for 2 players, AI
+playBtn.addEventListener('click',()=>{
+    playBtnPressed = true;
+    if (xBoard.getAttribute('class')==='board-selected' && yBoard.getAttribute('class')==='board-selected') {
+        gameMode = '2-players';
+        whichSide = 'both'
+        console.log(gameMode);
+    } else if (aiPower === 'easy') {
+        console.log('easy');
+        gameMode = 'ai-easy';
+        if (xBoard.getAttribute('class')==='board-selected'){
+            whichSide = 'X';
+        } else if (yBoard.getAttribute('class')==='board-selected'){
+            whichSide = 'Y';
+        } else {
+            whichSide = '0';
+        }
+        console.log(whichSide);
+    }else {
+        gameMode = 'ai-impossible';
+        if (xBoard.getAttribute('class')==='board-selected'){
+            whichSide = 'X';
+        } else if (yBoard.getAttribute('class')==='board-selected'){
+            whichSide = 'Y';
+        } else {
+            whichSide = '0';
+        }
+        console.log(whichSide);
+    }
+})
+
+//random number 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+
+
 
 xBoard.addEventListener('click',()=>{
     if (xBoard.getAttribute('class')=='X-board') {
@@ -71,51 +115,115 @@ const Game = () => {
         yBoard.classList.add('Y-board');
 
         whoGo = 'X';
-
+        // playBtnPressed = true;
     };
     const playGame = (e) => {
         console.log("first");
-        if (!win() && !draw()) {
-            console.log("second");
-            let box = document.getElementById(e.target.id);
-            box.innerText = whoGo;
-            numberXnY++;
-    
-            if (e.target.id==='b11') {
-                board[0][0] = whoGo;
-            } else if (e.target.id==='b12') {
-                board[0][1]=whoGo;
-            } else if (e.target.id==='b13') {
-                board[0][2] = whoGo;
-            } else if (e.target.id==='b21') {
-                board[1][0] = whoGo;
-            } else if (e.target.id==='b22') {
-                board[1][1] = whoGo;
-            } else if (e.target.id==='b23') {
-                board[1][2]=whoGo;
-            } else if (e.target.id==='b31') {
-                board[2][0] = whoGo;
-            } else if (e.target.id==='b32') {
-                board[2][1]=whoGo;
-            } else if (e.target.id==='b33') {
-                board[2][2]=whoGo;
-            }
-    
-            if (whoGo==='X'){
-                whoGo = 'Y';
-            } else {
-                whoGo = 'X';
-            }
-            if (win()){
-                if (whoGo === 'X') {
-                    winnerText.textContent = 'Winner is Y';
+        if (!win() && !draw() && playBtnPressed) {
+            if (whichSide === whoGo || whichSide === 'both') {
+                console.log("second");
+                let box = document.getElementById(e.target.id);
+                box.innerText = whoGo;
+                numberXnY++;
+                
+                if (e.target.id==='b11') {
+                    board[0][0] = whoGo;
+                } else if (e.target.id==='b12') {
+                    board[0][1]=whoGo;
+                } else if (e.target.id==='b13') {
+                    board[0][2] = whoGo;
+                } else if (e.target.id==='b21') {
+                    board[1][0] = whoGo;
+                } else if (e.target.id==='b22') {
+                    board[1][1] = whoGo;
+                } else if (e.target.id==='b23') {
+                    board[1][2]=whoGo;
+                } else if (e.target.id==='b31') {
+                    board[2][0] = whoGo;
+                } else if (e.target.id==='b32') {
+                    board[2][1]=whoGo;
+                } else if (e.target.id==='b33') {
+                    board[2][2]=whoGo;
+                }
+                
+                if (whoGo==='X'){
+                    whoGo = 'Y';
                 } else {
-                    winnerText.textContent = 'Winner is X';
+                    whoGo = 'X';
+                }
+                if (win()){
+                    playBtnPressed = false;
+                    if (whoGo === 'X') {
+                        winnerText.textContent = 'Winner is Y';
+                    } else {
+                        winnerText.textContent = 'Winner is X';
+                    }
+                }
+                if (draw()) {
+                    playBtnPressed = false;
+                    winnerText.textContent = 'No Winner';
                 }
             }
-            if (draw()) {
-                winnerText.textContent = 'No Winner';
-            }
+            if (gameMode==="ai-easy" && whoGo !== whichSide && !win() && !draw()) {
+                let random10 = 0;
+                let random01 = 0;
+                while (board[random10][random01]==='X' || board[random10][random01]==='Y') {
+                    random10 = getRandomInt(3);
+                    random01 = getRandomInt(3);
+                }
+                board[random10][random01] = whoGo;
+                numberXnY++;
+                console.log('numberXY ' + numberXnY);
+                if (random01===0 && random10===0) {
+                    let box = document.getElementById('b11');
+                    box.innerText = whoGo;
+                } else if (random01===1 && random10===0) {
+                    let box = document.getElementById('b12');
+                    box.innerText = whoGo;
+                } else if (random01===2 && random10===0) {
+                    let box = document.getElementById('b13');
+                    box.innerText = whoGo;
+                } else if (random01===0 && random10===1) {
+                    let box = document.getElementById('b21');
+                    box.innerText = whoGo;
+                } else if (random01===1 && random10===1) {
+                    let box = document.getElementById('b22');
+                    box.innerText = whoGo;
+                } else if (random01===2 && random10===1) {
+                    let box = document.getElementById('b23');
+                    box.innerText = whoGo;
+                } else if (random01 === 0 && random10===2){
+                    let box = document.getElementById('b31');
+                    box.innerText = whoGo;
+                } else if (random01===1 && random10===2) {
+                    let box = document.getElementById('b32');
+                    box.innerText = whoGo;
+                } else if (random01===2 && random10===2) {
+                    let box = document.getElementById('b33');
+                    box.innerText = whoGo;
+                }
+
+                if (whoGo==='X'){
+                    whoGo = 'Y';
+                } else {
+                    whoGo = 'X';
+                }
+                if (win()){
+                    playBtnPressed = false;
+                    if (whoGo === 'X') {
+                        winnerText.textContent = 'Winner is Y';
+                    } else {
+                        winnerText.textContent = 'Winner is X';
+                    }
+                }
+                if (draw()) {
+                    playBtnPressed = false;
+                    winnerText.textContent = 'No Winner';
+                }
+
+            } else if (gameMode === 'ai-impossible' && whoGo !== whichSide) {
+                return;
+            } 
         }
     };
 
@@ -134,3 +242,4 @@ gameBoard.forEach((box)=>{
         game1.playGame(e);
     });
 });
+
