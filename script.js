@@ -5,8 +5,10 @@ const xBoard = document.querySelector(".X-board");
 const yBoard = document.querySelector(".Y-board");
 const winnerText = document.querySelector(".Result");
 const ai = document.getElementById('AI');
-const aiPower = ai.value;
+const nightLight = document.getElementById("changer");
+const bodyMode = document.getElementById("body-changer");
 
+let aiPower = ai.value;
 let playBtnPressed  = false;
 let board = [['1','2','3'],['4','5','6'],['7','8','9']];
 let numberXnY = 0;
@@ -15,8 +17,55 @@ let playMode = false;
 let gameMode = '2-players';
 let whichSide;
 
+//night-light mode
+nightLight.addEventListener('click', ()=>{
+    if(bodyMode.getAttribute('class')==="light-mode") {
+        bodyMode.classList.remove('light-mode');
+        bodyMode.classList.add('night-mode');
+        nightLight.classList.remove('light-mode-text');
+        nightLight.classList.add('night-mode-text');
+        localStorage.setItem('mode',bodyMode.getAttribute('class'));
+    } else {
+        bodyMode.classList.remove('night-mode');
+        bodyMode.classList.add('light-mode');
+        nightLight.classList.remove('night-mode-text');
+        nightLight.classList.add('light-mode-text');
+        localStorage.setItem('mode',bodyMode.getAttribute('class'));
+    }
+});
+
+// localStorage of the light-night mode
+if (storageAvailable('localStorage')) {
+    if(!localStorage.getItem('mode')) {
+        populateStorage();
+      } else {
+        setStyles();
+      }
+  }
+  else {
+    console.log("Sorry, LocalStorage doen't work; cant save light-night settings");
+  }
+
+  // func for setting style if there's in memory
+  function setStyles() {
+      let currentMode = localStorage.getItem("mode");
+      if (currentMode==="night-mode") {
+        bodyMode.classList.remove('light-mode');
+        bodyMode.classList.add('night-mode');
+        nightLight.classList.remove('light-mode-text');
+        nightLight.classList.add('night-mode-text');
+      }
+  }
+  // create in memory
+  function populateStorage() {
+    localStorage.setItem('mode',bodyMode.getAttribute('class'));
+    setStyles();
+  }
+
+
 //codition for 2 players, AI
 playBtn.addEventListener('click',()=>{
+    aiPower = ai.value;
     playBtnPressed = true;
     if (xBoard.getAttribute('class')==='board-selected' && yBoard.getAttribute('class')==='board-selected') {
         gameMode = '2-players';
@@ -34,6 +83,7 @@ playBtn.addEventListener('click',()=>{
         }
         console.log(whichSide);
     }else {
+        console.log("impossible");
         gameMode = 'ai-impossible';
         if (xBoard.getAttribute('class')==='board-selected'){
             whichSide = 'X';
@@ -252,5 +302,30 @@ gameBoard.forEach((box)=>{
     });
 });
 
+// function to  localStorage supported and available ???
+function storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
 
 

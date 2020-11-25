@@ -70,12 +70,23 @@
     border-bottom: 2px solid #BA1200;
 }
 
-body h1{
+
+.night-mode-text{
+    color: #C8E0F4;
+    text-align: center;
+    letter-spacing: 9px;
+}
+
+.night-mode{
+    background: #031927;
+}
+
+.light-mode-text{
     color: #031927;
     text-align: center;
     letter-spacing: 9px;
 }
-body {
+.light-mode {
     background: #C8E0F4 ;
 }
 
