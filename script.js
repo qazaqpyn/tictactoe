@@ -8,7 +8,7 @@ const ai = document.getElementById('AI');
 const aiPower = ai.value;
 
 let playBtnPressed  = false;
-let board = [['a','b','c'],['q','w','e'],['r','t','y']];
+let board = [['1','2','3'],['4','5','6'],['7','8','9']];
 let numberXnY = 0;
 let whoGo = 'X';
 let playMode = false;
@@ -78,18 +78,17 @@ const Game = () => {
     const win = () => {
         if ((board[0][0]===board[1][1] && board[1][1]===board[2][2]) || (board[0][2]===board[1][1] && board[1][1]===board[2][0])){
             // winnerText.textContent = board[0]
-            console.log("win");
+            console.log("win-45degree");
             return true;
         }
         for (let i=0; i<3; i++) {
-            if ((board[i][0]===board[i][1] && board[i][1]===board[i][2]) || (board[0][i]===board[1][i] && board[2][i])) {
-                console.log("win");
+            if ((board[i][0]===board[i][1] && board[i][1]===board[i][2]) || (board[0][i]===board[1][i] && board[2][i]===board[1][i])) {
+                console.log("win-line");
                 return true;
-            } else {
-                console.log("still playing");
-                return false;
-            }
+            } 
         }
+        console.log("still playing");
+        return false;
     };
     const draw = () => {
         if (numberXnY === 9){
@@ -101,7 +100,8 @@ const Game = () => {
     };
     const newGame = () => {
         console.log("newgame");
-        board = [['a','b','c'],['q','w','e'],['r','t','y']];
+        board = [['1','2','3'],['4','5','6'],['7','8','9']];
+        console.log(board);
         numberXnY = 0;
 
         gameBoard.forEach((box)=>{
@@ -119,6 +119,7 @@ const Game = () => {
     };
     const playGame = (e) => {
         console.log("first");
+        
         if (!win() && !draw() && playBtnPressed) {
             if (whichSide === whoGo || whichSide === 'both') {
                 console.log("second");
@@ -158,13 +159,14 @@ const Game = () => {
                     } else {
                         winnerText.textContent = 'Winner is X';
                     }
+                    
                 }
                 if (draw()) {
                     playBtnPressed = false;
                     winnerText.textContent = 'No Winner';
                 }
             }
-            if (gameMode==="ai-easy" && whoGo !== whichSide && !win() && !draw()) {
+            while (gameMode==="ai-easy" && whoGo !== whichSide && !win() && !draw()) {
                 let random10 = 0;
                 let random01 = 0;
                 while (board[random10][random01]==='X' || board[random10][random01]==='Y') {
@@ -220,8 +222,9 @@ const Game = () => {
                     playBtnPressed = false;
                     winnerText.textContent = 'No Winner';
                 }
+                console.log(board);
 
-            } else if (gameMode === 'ai-impossible' && whoGo !== whichSide) {
+            }  if (gameMode === 'ai-impossible' && whoGo !== whichSide) {
                 return;
             } 
         }
@@ -233,13 +236,21 @@ const Game = () => {
 const game1 = Game();
 playBtn.addEventListener('click',()=>{
     playMode = true; 
+    console.log("before while");
+    if (whichSide==='0') {
+        console.log("in while");
+        game1.playGame();
+    }
 }); 
 
 newBtn.addEventListener('click',()=>game1.newGame());
+
 gameBoard.forEach((box)=>{
     box.addEventListener('click',(e)=>{
         console.log(e.target.id);
         game1.playGame(e);
     });
 });
+
+
 
